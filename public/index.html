@@ -13,9 +13,9 @@
 
         </header>
         <first-component
-            v-if='selectedFruit'
+            v-if='selectedImage'
             post-title='My amazing article'
-            :id='selectedFruit'
+            :id='selectedImage'
             @close='closeMe'>
 
         </first-component>
@@ -42,7 +42,7 @@
 
         <h2>{{latest}}</h2>
         <div class="cards" v-if="images">
-            <div class="card" v-for="i in images" >
+            <div class="card" v-for="i in images" @click='selectedImage = i.id'>
                 <img :src="i.url" class="card-header">
                 <p class="card-title">{{i.title}}</p>
             </div>

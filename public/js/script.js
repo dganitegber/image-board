@@ -27,6 +27,7 @@
         el: "#main",
         data: {
             selectedFruit: null,
+            selectedImage: null,
             heading: "Welcome to my image board!",
             latest: "Latest images",
             images: [],
