@@ -4,16 +4,29 @@
         //child
         template: "#template",
         props: ["postTitle", "id"],
+
         data: function() {
             return {
                 name: "Dganit",
-                count: 0
+                count: 0,
+                clickedImage: {}
             };
         },
         mounted: function() {
+            var vueInstance = this;
             console.log("component mounted: ");
             console.log("my postTitle: ", this.postTitle);
             console.log("id: ", this.id);
+            axios
+                .get("/modal/" + this.id)
+                .then(function(res) {
+                    console.log(this.id);
+                    vueInstance.clickedImage = res.data;
+                    console.log(res.data);
+                })
+                .catch(function(err) {
+                    console.log("error in axios get candy: ", err);
+                });
         },
         methods: {
             close: function() {
@@ -26,7 +39,6 @@
     new Vue({
         el: "#main",
         data: {
-            selectedFruit: null,
             selectedImage: null,
             heading: "Welcome to my image board!",
             latest: "Latest images",
@@ -34,21 +46,7 @@
             title: "",
             description: "",
             username: "",
-            file: null,
-            fruits: [
-                {
-                    title: "🥝",
-                    id: 1
-                },
-                {
-                    title: "🍓",
-                    id: 2
-                },
-                {
-                    title: "🍋",
-                    id: 3
-                }
-            ]
+            file: null
         },
         created: function() {
             console.log("created");

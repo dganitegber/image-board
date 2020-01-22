@@ -2,11 +2,18 @@ html {
     margin: 0;
     box-sizing: border-box;
 }
+/* main {
+    display: flex;
+} */
 
 body {
     margin: 0;
     /* border: 10px solid white;
     border-radius: 2%; */
+}
+
+header {
+    position: relative;
 }
 
 @import "compass";
@@ -30,13 +37,30 @@ body {
     flex-wrap: wrap;
 }
 .component {
-    background-color: hotpink;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    left: 0;
-    /* z-index: 1; */
+    display: flex;
+    flex-direction: column;
+    background-color: hotpink;
+    /* position: fixed; */
+    margin-left: 20%;
+    margin-right: 20%;
+
+    height: 90%;
+    width: 70%;
+    z-index: 1;
+}
+
+.modalbutton {
+    width: 30%;
+}
+.imginfo {
+    display: flex;
+    flex-direction: row;
+}
+.imginfotxt {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
 }
 .fruit {
     font-size: 50px;

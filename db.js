@@ -12,3 +12,6 @@ exports.logImages = function(url, username, title, description) {
         [url, username, title, description]
     );
 };
+exports.getImageForModal = function(id) {
+    return db.query(`SELECT * FROM images WHERE id=$1`, [id]);
+};

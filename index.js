@@ -29,6 +29,15 @@ const uploader = multer({
 
 app.use(express.json());
 
+app.get("/modal/:id", (req, res) => {
+    var id = req.params.id;
+    console.log("req.params.id", req.params.id);
+    console.log("id", id);
+    db.getImageForModal(id).then(function(results) {
+        res.json(results.rows[0]);
+        console.log("results for modal", results.rows[0]);
+    });
+});
 app.get("/candy", (req, res) => {
     // res.json([
     //     { name: "maltesers" },
@@ -38,7 +47,7 @@ app.get("/candy", (req, res) => {
     // console.log("res: ", res);
     db.getImages().then(function(results) {
         res.json(results.rows);
-        console.log(results);
+        // console.log(results);
     });
 });
 
