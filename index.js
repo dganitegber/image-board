@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const db = require("./db");
+const s3 = require("./s3");
+const { s3Url } = require("./config");
 
 app.use(express.static("./public"));
 const multer = require("multer");
@@ -40,18 +42,20 @@ app.get("/candy", (req, res) => {
     });
 });
 
-app.post("/upload", uploader.single("file"), (req, res) => {
-    console.log("file: ", req.file);
-    console.log("input: ", req.body);
-    if (req.file) {
-        res.json({
-            success: true
-        });
-    } else {
-        res.json({
-            success: false
-        });
-    }
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    const body = req.body;
+    //insert a new row into the database for the image
+    //title, description, username are in req.body
+    //the url for the image is https://s3.amazonaws.com/:yourBucketName/:filename.
+    const imageUrl = s3Url + req.file.filename;
+    console.log(imageUrl);
+    console.log("body", body);
+    //after query is successful, send a response
+    db.logImages(imageUrl, body.username, body.title, body.description).then(
+        data => res.json(data)
+    );
+
+    //unshift() puts an image in the beginning unlike push.
 });
 
 app.listen(8080, () => console.log(`808(0) listening.`));

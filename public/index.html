@@ -8,6 +8,30 @@
 </head>
 <body>
     <div id="main">
+        <header>
+            <h1>{{heading}}</h1>
+
+        </header>
+        <first-component
+            v-if='selectedFruit'
+            post-title='My amazing article'
+            :id='selectedFruit'
+            @close='closeMe'>
+
+        </first-component>
+
+        <p class="fruit"
+        v-for="fruit in fruits"
+        @click="selectedFruit = fruit.id"
+        v-if="fruits.length">{{fruit.title}}</p>
+        <!-- <first-component>
+        </first-component>
+
+        <!-- <first-component>
+        </first-component>
+
+        <second-component>
+        </second-component> -->
 
         <input v-model='title' type="text" name="title" placeholder="title">
         <input v-model='description' type="text" name="description" placeholder="description">
@@ -16,7 +40,6 @@
         <button @click='handleClick'>submit</button>
 
 
-        <h1>{{heading}}</h1>
         <h2>{{latest}}</h2>
         <div class="cards" v-if="images">
             <div class="card" v-for="i in images" >
@@ -25,7 +48,19 @@
             </div>
 
         </div>
+        <!-- <first-component>
+        </first-component> -->
+
     </div>
+
+    <script type="text/x-template" id="template">
+        <div class="component">
+            <h1 @click="close">This is my first component</h1>
+            <h2> My name is: {{name}}</h2>
+            <button @click='count++'> Click Me</button> count: {{count}}
+        </div>
+
+    </script>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src="/js/script.js"></script>

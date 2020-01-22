@@ -1,15 +1,53 @@
 (function() {
     console.log("this works");
+    Vue.component("first-component", {
+        //child
+        template: "#template",
+        props: ["postTitle", "id"],
+        data: function() {
+            return {
+                name: "Dganit",
+                count: 0
+            };
+        },
+        mounted: function() {
+            console.log("component mounted: ");
+            console.log("my postTitle: ", this.postTitle);
+            console.log("id: ", this.id);
+        },
+        methods: {
+            close: function() {
+                console.log("samity check click worked!");
+                this.$emit("close");
+            }
+        }
+    });
+
     new Vue({
         el: "#main",
         data: {
+            selectedFruit: null,
             heading: "Welcome to my image board!",
             latest: "Latest images",
             images: [],
             title: "",
             description: "",
             username: "",
-            file: null
+            file: null,
+            fruits: [
+                {
+                    title: "🥝",
+                    id: 1
+                },
+                {
+                    title: "🍓",
+                    id: 2
+                },
+                {
+                    title: "🍋",
+                    id: 3
+                }
+            ]
         },
         created: function() {
             console.log("created");
@@ -28,6 +66,10 @@
         },
 
         methods: {
+            closeMe: function() {
+                console.log("i need to close the modal!!!");
+                this.selectedFruit = null;
+            },
             handleClick: function(e) {
                 e.preventDefault();
                 console.log("this: ", this, "33");
@@ -43,6 +85,7 @@
                 axios
                     .post("upload", formData)
                     .then(function(resp) {
+                        // resp.data.rows[0] image object. we want to unshift this into the vueInstance array. remember "this" will be lost. look in get how that was solved.
                         console.log("resp form POST /upload: ", resp);
                     })
                     .catch(function(err) {
