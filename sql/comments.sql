@@ -5,6 +5,6 @@ CREATE TABLE comments(
     commenter VARCHAR(255) NOT NULL,
     message TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    photo_id INT UNIQUE NOT NULL REFERENCES images(id)
+    photo_id INT NOT NULL REFERENCES images(id)
 
 );

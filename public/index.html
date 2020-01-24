@@ -2,6 +2,8 @@
 <html>
 <head>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Gelasio&display=swap" rel="stylesheet">
+
     <title>My Imageboard</title>
     <header>
     </header>
@@ -12,7 +14,8 @@
         v-if='selectedImage'
         post-title='My amazing article'
         :id='selectedImage'
-        @close='closeMe'>
+        @close='closeMe'
+        @sendcomment='sendComment'>
 
     </first-component>
         <header>
@@ -40,11 +43,18 @@
         <h2>{{latest}}</h2>
         <div class="cards" v-if="images">
             <div class="card" v-for="i in images" @click='selectedImage = i.id'>
-                <img :src="i.url" class="card-header">
+                <img :src="i.url">
                 <p class="card-title">{{i.title}}</p>
             </div>
 
         </div>
+        <div class='loadmore'>
+            <button @click='loadMore'>Load more</button>
+        </div>
+
+
+
+
         <!-- <first-component>
         </first-component> -->
 
@@ -52,15 +62,43 @@
 
     <script type="text/x-template" id="template">
         <div class="component">
-            <h1 @click="close">{{clickedImage.title}}</h1>
-            <div class="card" >
-                <img :src="clickedImage.url" class="card-header">
+            <div class='modal-top'>
+                <h1 class='closeMe' @click="close">X</h1>
+                <h1 class='title'>{{clickedImage.title}}</h1>
             </div>
-            <h2> Uploaded by {{clickedImage.username}}</h2>
-            <p class="card-description">{{clickedImage.description}}</p>
-            <button @click='count++' class='modalbutton'> Click Me</button> count: {{count}}
-        </div>
 
+            <div class="imageinfo" >
+                    <div class="cardmodal" >
+                        <img :src="clickedImage.url">
+                    </div>
+                    <div class="imginfotxt">
+                        <h2 class="card-description">{{clickedImage.description}}</h2>
+                        <p class='uploader'> Uploaded by {{clickedImage.username}}</p>
+                    </div>
+                    <div class="oComments" v-if="commentsforimage.length">
+                        <div class="comment" v-for="i in commentsforimage" @click='selectedImage = i.id'>
+                            <p class="commenter">Posted by {{i.commenter}} On {{i.created_at}}</p>
+                            <p class='commentContent' font-fanily="bold">{{i.message}}</p>
+
+
+                        </div>
+
+                    </div>
+
+
+
+            </div>
+
+            <div class='newcomments'>
+                <input class='newcomment' style="width: 195px;" v-model='comment' type="text" name="comment" placeholder="share your thoughts"></input>
+
+
+
+                <input class='newcommentername' style="width: 195px;"  v-model='commentername' type="text" name="commentername" placeholder="What is your name?"></input>
+                <button @click='sendComment' class='modalbutton'> Click Me</button>
+            </div>
+
+        </div>
     </script>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>

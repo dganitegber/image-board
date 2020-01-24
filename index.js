@@ -31,11 +31,14 @@ app.use(express.json());
 
 app.get("/modal/:id", (req, res) => {
     var id = req.params.id;
-    console.log("req.params.id", req.params.id);
-    console.log("id", id);
     db.getImageForModal(id).then(function(results) {
-        res.json(results.rows[0]);
-        console.log("results for modal", results.rows[0]);
+        db.getComments(id).then(data => {
+            var jointresponse = {};
+            jointresponse.image = results;
+            jointresponse.comments = data;
+
+            res.json(jointresponse);
+        });
     });
 });
 app.get("/candy", (req, res) => {
@@ -50,21 +53,31 @@ app.get("/candy", (req, res) => {
         // console.log(results);
     });
 });
-
+app.post("/sendcomment/:commenttext/:commentername/:id/", (req, res) => {
+    console.log(req.params);
+    var thisModal = req.params;
+    db.postComment(
+        thisModal.commentername,
+        thisModal.commenttext,
+        thisModal.id
+    ).then(data => res.json(data));
+});
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const body = req.body;
     //insert a new row into the database for the image
-    //title, description, username are in req.body
     //the url for the image is https://s3.amazonaws.com/:yourBucketName/:filename.
     const imageUrl = s3Url + req.file.filename;
-    console.log(imageUrl);
-    console.log("body", body);
     //after query is successful, send a response
     db.logImages(imageUrl, body.username, body.title, body.description).then(
         data => res.json(data)
     );
 
     //unshift() puts an image in the beginning unlike push.
+});
+
+app.post("/loadmore/:id", (req, res) => {
+    console.log(req.params);
+    db.getNext(req.params.id).then(data => res.json(data));
 });
 
 app.listen(8080, () => console.log(`808(0) listening.`));
