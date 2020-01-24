@@ -158,11 +158,14 @@
                 axios
                     .post("loadmore/" + this.lastId)
                     .then(function(data) {
-                        console.log(data);
+                        for (var i = 0; i < data.data.length; i++) {
+                            vueInstance.images.push(data.data[i]);
+                        }
                     })
                     .catch(function(err) {
                         console.log("err in POST /loadmore: ", err);
                     });
+                this.lastId = null;
             },
 
             handleChange: function(e) {

@@ -60,7 +60,7 @@ header {
 
 .imageinfo {
     display: flex;
-
+    justify-content: space-between;
     flex-direction: row;
     max-height: 40%;
     position: relative;
@@ -72,16 +72,19 @@ header {
     position: absolute;
 }
 .oComments {
-    margin-left: 30%;
+    margin-left: 10%;
     background-color: rgb(201, 109, 171);
     height: auto;
     overflow: scroll;
     /* max-height: 50%; */
     min-height: 0;
+    max-width: 29%;
+    width: 29%;
     margin-right: 5px;
     border-radius: 2px;
     box-shadow: -30px 20px 25px -5px rgba(0, 0, 0, 0.1),
         0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    justify-content: flex-end;
 }
 .oComments::-webkit-scrollbar {
     display: none;
@@ -107,8 +110,10 @@ header {
     display: flex;
     flex-direction: column;
     margin-left: 30px;
+    max-width: 29%;
 }
 .comment {
+    maxwidth: 33%;
     padding: 3px;
     margin: 20px;
     background: #d4cbe5;
@@ -137,6 +142,7 @@ header {
 }
 .cardmodal {
     max-width: 30%;
+    margin-left: 10px;
 }
 
 .cardmodal img {
