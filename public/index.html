@@ -42,9 +42,11 @@
 
         <h2>{{latest}}</h2>
         <div class="cards" v-if="images">
-            <div class="card" v-for="i in images" @click='selectedImage = i.id'>
+            <div class="card" v-for="i in images" >
+                <a :href="'#'+i.id">
                 <img :src="i.url">
                 <p class="card-title">{{i.title}}</p>
+            </a>
             </div>
 
         </div>
@@ -70,6 +72,7 @@
             <div class="imageinfo" >
                     <div class="cardmodal" >
                         <img :src="clickedImage.url">
+
                     </div>
                     <div class="imginfotxt">
                         <h2 class="card-description">{{clickedImage.description}}</h2>
@@ -77,8 +80,8 @@
                     </div>
                     <div class="oComments" v-if="commentsforimage.length">
                         <div class="comment" v-for="i in commentsforimage" @click='selectedImage = i.id'>
-                            <p class="commenter">Posted by {{i.commenter}} On {{i.created_at}}</p>
-                            <p class='commentContent' font-fanily="bold">{{i.message}}</p>
+                            <p class="commenter">Posted by {{i.commenter}} On {{i.created_at}}  </p>
+                            <p class='commentContent' font-fanily="bold">{{i.message}} </p>
 
 
                         </div>

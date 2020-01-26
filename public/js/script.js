@@ -16,20 +16,44 @@
         },
         mounted: function() {
             var vueInstance = this;
-            console.log("component mounted: ");
-            console.log("my postTitle: ", this.postTitle);
-            console.log("id: ", this.id);
+            if (isNaN(this.id)) {
+                this.close();
+            }
+
             axios
                 .get("/modal/" + this.id)
                 .then(function(res) {
-                    console.log(res.data);
                     vueInstance.clickedImage = res.data.image.rows[0];
                     vueInstance.commentsforimage = res.data.comments.rows;
-                    console.log(res.data.comments.rows);
+                    if (res.data.image.rows.length === 0) {
+                        vueInstance.close();
+                    }
                 })
                 .catch(function(err) {
                     console.log("error in axios get modal: ", err);
                 });
+        },
+        watch: {
+            id: function() {
+                if (isNaN(this.id)) {
+                    this.close();
+                }
+                var vueInstance = this;
+                console.log("component mounted: ");
+                console.log("my postTitle: ", this.postTitle);
+                console.log("id: ", this.id);
+                axios
+                    .get("/modal/" + this.id)
+                    .then(function(res) {
+                        console.log(res.data);
+                        vueInstance.clickedImage = res.data.image.rows[0];
+                        vueInstance.commentsforimage = res.data.comments.rows;
+                        console.log(res.data.comments.rows);
+                    })
+                    .catch(function(err) {
+                        console.log("error in axios get modal: ", err);
+                    });
+            }
         },
         methods: {
             close: function() {
@@ -67,7 +91,7 @@
     new Vue({
         el: "#main",
         data: {
-            selectedImage: null,
+            selectedImage: location.hash.slice(1),
             heading: "Welcome to my image board!",
             latest: "Latest images",
             images: [],
@@ -85,11 +109,13 @@
         mounted: function() {
             console.log("mounted");
             var vueInstance = this;
+            addEventListener("hashchange", function() {
+                vueInstance.selectedImage = location.hash.slice(1);
+            });
             axios
                 .get("/candy")
                 .then(function(res) {
                     vueInstance.images = res.data;
-                    console.log("res.data from get images", res.data);
                 })
                 .catch(function(err) {
                     console.log("error in axios get candy: ", err);
@@ -100,6 +126,7 @@
             closeMe: function() {
                 console.log("i need to close the modal!!!");
                 console.log(this.selectedImage);
+                location.hash = "";
                 this.selectedImage = null;
             },
             handleClick: function(e) {
@@ -122,6 +149,10 @@
                         console.log(resp.data.rows[0]);
                         console.log(vueInstance);
                         vueInstance.images.unshift(resp.data.rows[0]);
+                        vueInstance.title = "";
+                        vueInstance.description = "";
+                        vueInstance.username = "";
+                        console.log(vueInstance.username);
                     })
                     .catch(function(err) {
                         console.log("err in POST /upload: ", err);

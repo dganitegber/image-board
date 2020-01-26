@@ -39,3 +39,10 @@ exports.getNext = lastId =>
             [lastId]
         )
         .then(({ rows }) => rows);
+
+exports.getprevim = function(id) {
+    return db.query(
+        "SELECT * FROM images WHERE id < $1 ORDER BY id DESC LIMIT 1",
+        [id]
+    );
+};

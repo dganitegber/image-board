@@ -76,8 +76,17 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 });
 
 app.post("/loadmore/:id", (req, res) => {
-    console.log(req.params);
+    console.log(req.params.id);
     db.getNext(req.params.id).then(data => res.json(data));
+});
+
+app.post("sendprev/:id", (req, res) => {
+    console.log("this happened");
+    console.log(req.params.id);
+    db.getprevim(req.params.id).then(function(results) {
+        console.log(results);
+        res.json(results);
+    });
 });
 
 app.listen(8080, () => console.log(`808(0) listening.`));
