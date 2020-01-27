@@ -72,11 +72,10 @@
             <div class="imageinfo" >
                     <div class="cardmodal" >
                         <img :src="clickedImage.url">
-
-                    </div>
-                    <div class="imginfotxt">
-                        <h2 class="card-description">{{clickedImage.description}}</h2>
-                        <p class='uploader'> Uploaded by {{clickedImage.username}}</p>
+                        <div class='imginfotxt'>
+                            <h2 class="card-description">{{clickedImage.description}}</h2>
+                            <h4 class='uploader'> Uploaded by {{clickedImage.username}}</h4>
+                        </div>
                     </div>
                     <div class="oComments" v-if="commentsforimage.length">
                         <div class="comment" v-for="i in commentsforimage" @click='selectedImage = i.id'>

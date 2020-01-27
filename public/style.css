@@ -74,6 +74,9 @@ header {
     bottom: 0;
     position: absolute;
 }
+.card-description {
+    position: absolute;
+}
 .oComments {
     margin-left: 10%;
     background-color: rgb(201, 109, 171);
@@ -108,17 +111,17 @@ header {
     width: 30%;
 }
 .imginfo {
+    overflow: auto;
+    clear: both;
     display: flex;
-    flex-direction: row;
-    position: relative;
+    flex-direction: column;
+    height: 100%; /* position: relative; */
 }
 .imginfotxt {
     display: flex;
     flex-direction: column;
-    /* margin-left: 30px; */
-    max-width: 29%;
-    left: 25%;
-    position: relative;
+    margin-left: 10px;
+    width: 29%;
 }
 
 .comment {
@@ -156,13 +159,14 @@ header {
     word-wrap: break-word;
 }
 .cardmodal {
-    max-width: 30%;
     margin-left: 10px;
+    max-height: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 .cardmodal img {
     box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.5);
-    /* max-width: 100%; */
     max-height: 100%;
 }
 .card {
