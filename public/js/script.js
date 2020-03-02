@@ -57,10 +57,9 @@
         },
         methods: {
             close: function() {
-                console.log("samity check click worked!");
-                this.$emit("close");
+                console.log("im close");
+                this.$emit("close", this.count);
             },
-
             sendComment: function() {
                 console.log("i clicked the button in modal", "35");
                 var self = this;
@@ -84,6 +83,18 @@
                     .catch(function(err) {
                         console.log("err in POST /sendcomment: ", err);
                     });
+            },
+
+            deleteimage: function() {
+                console.log("im in delete");
+                var vueInstance = this;
+                axios.post("/deleteimage/" + this.id).then(function(data) {
+                    console.log(data);
+                    vueInstance.$emit("renderagain", vueInstance.id);
+                    console.log("im after the emit");
+                    vueInstance.close();
+                    console.log("i'm after the close");
+                });
             }
         }
     });
@@ -131,7 +142,6 @@
             },
             handleClick: function(e) {
                 e.preventDefault();
-                console.log("this: ", this, "33");
                 //we use FormData to send a file to the server
                 var formData = new FormData();
                 formData.append("title", this.title);
@@ -139,25 +149,24 @@
                 formData.append("username", this.username);
                 formData.append("file", this.file);
 
-                // console.log('formData: ', formData);
                 var vueInstance = this;
                 axios
                     .post("upload", formData)
                     .then(function(resp) {
-                        // resp.data.rows[0] image object. we want to unshift this into the vueInstance array. remember "this" will be lost. look in get how that was solved.
                         console.log("resp form POST /upload: ", resp);
-                        console.log(resp.data.rows[0]);
+                        console.log("resp.data.rows[0]", resp.data.rows[0]);
                         console.log(vueInstance);
                         vueInstance.images.unshift(resp.data.rows[0]);
                         vueInstance.title = "";
                         vueInstance.description = "";
                         vueInstance.username = "";
-                        console.log(vueInstance.username);
+                        console.log(vueInstance.file);
                     })
                     .catch(function(err) {
                         console.log("err in POST /upload: ", err);
                     });
             },
+
             sendComment: function() {
                 console.log("send comment");
 
@@ -185,7 +194,6 @@
                 );
 
                 this.lastId = this.images[this.images.length - 1].id;
-                console.log(vueInstance.lastId);
                 axios
                     .post("loadmore/" + this.lastId)
                     .then(function(data) {
@@ -203,6 +211,14 @@
                 console.log("handleChange is running");
                 console.log("file:", e.target.files[0]);
                 this.file = e.target.files[0];
+            },
+
+            refresh: function(id) {
+                for (var i in this.images) {
+                    if (this.images[i].id == id) {
+                        this.images.splice(i, 1);
+                    }
+                }
             }
         }
     });

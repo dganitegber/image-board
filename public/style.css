@@ -31,7 +31,7 @@ header {
 .cards {
     display: flex;
     justify-content: space-around;
-    flex-direction: row-reverse;
+    flex-direction: row;
     margin-top: 15px;
     /* padding: 1.5%; */
     -webkit-box-sizing: border-box;
@@ -142,11 +142,11 @@ header {
     border: none;
     background-color: #cfc7d2;
     border-bottom: 2px solid purple;
-    align-self: baseline;
+    /* align-self: baseline; */
 }
 
 .newcommentername {
-    line-height: 3em;
+    line-height: 4em;
     margin-left: 10px;
     text-align: left;
     border-radius: 5px;
@@ -324,8 +324,8 @@ body {
 .newcomments {
     display: flex;
     align-self: baseline;
-    transform: translateY(80%);
-    margin-top: 20%;
+    transform: translateY(90%);
+    margin-top: 10%;
 }
 
 button {
@@ -358,4 +358,13 @@ button span {
 .loadmore {
     position: absolute;
     align-self: center;
+    margin-left: 45%;
+}
+.deleteimage {
+    align-self: flex-end;
+    flexmargin-right: 10px;
+}
+
+.deleteimage img {
+    max-height: 40px;
 }

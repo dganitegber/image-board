@@ -42,19 +42,11 @@ app.get("/modal/:id", (req, res) => {
     });
 });
 app.get("/candy", (req, res) => {
-    // res.json([
-    //     { name: "maltesers" },
-    //     { name: "happy cherries" },
-    //     { name: "milka" }
-    // ]);
-    // console.log("res: ", res);
     db.getImages().then(function(results) {
         res.json(results.rows);
-        // console.log(results);
     });
 });
 app.post("/sendcomment/:commenttext/:commentername/:id/", (req, res) => {
-    console.log(req.params);
     var thisModal = req.params;
     db.postComment(
         thisModal.commentername,
@@ -64,29 +56,30 @@ app.post("/sendcomment/:commenttext/:commentername/:id/", (req, res) => {
 });
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const body = req.body;
-    //insert a new row into the database for the image
-    //the url for the image is https://s3.amazonaws.com/:yourBucketName/:filename.
     const imageUrl = s3Url + req.file.filename;
-    //after query is successful, send a response
     db.logImages(imageUrl, body.username, body.title, body.description).then(
         data => res.json(data)
     );
-
-    //unshift() puts an image in the beginning unlike push.
 });
 
 app.post("/loadmore/:id", (req, res) => {
-    console.log(req.params.id);
     db.getNext(req.params.id).then(data => res.json(data));
 });
 
 app.post("sendprev/:id", (req, res) => {
-    console.log("this happened");
-    console.log(req.params.id);
     db.getprevim(req.params.id).then(function(results) {
-        console.log(results);
         res.json(results);
     });
 });
 
+app.post("/deleteimage/:id", (req, res) => {
+    db.deleteAllComments(req.params.id)
+        .then(db.deleteEntry(req.params.id))
+        .then(function(results) {
+            res.json(results);
+        })
+        .catch(function(err) {
+            console.log("error in get comments of comments: ", err);
+        });
+});
 app.listen(8080, () => console.log(`808(0) listening.`));

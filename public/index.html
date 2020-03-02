@@ -15,6 +15,7 @@
         post-title='My amazing article'
         :id='selectedImage'
         @close='closeMe'
+        @renderagain="refresh"
         @sendcomment='sendComment'>
 
     </first-component>
@@ -77,27 +78,20 @@
                             <h4 class='uploader'> Uploaded by {{clickedImage.username}}</h4>
                         </div>
                     </div>
-                    <div class="oComments" v-if="commentsforimage.length">
+                    <div class="oComments" v-c="commentsforimage.length">
                         <div class="comment" v-for="i in commentsforimage" @click='selectedImage = i.id'>
                             <p class="commenter">Posted by {{i.commenter}} On {{i.created_at}}  </p>
                             <p class='commentContent' font-fanily="bold">{{i.message}} </p>
-
-
                         </div>
-
                     </div>
-
-
-
-            </div>
-
+                </div>
             <div class='newcomments'>
                 <input class='newcomment' style="width: 195px;" v-model='comment' type="text" name="comment" placeholder="share your thoughts"></input>
-
-
-
                 <input class='newcommentername' style="width: 195px;"  v-model='commentername' type="text" name="commentername" placeholder="What is your name?"></input>
                 <button @click='sendComment' class='modalbutton'> Click Me</button>
+            </div>
+            <div  class="deleteimage" >
+                <img  @click='deleteimage' src='delete.png' title="Delete this image!">
             </div>
 
         </div>

@@ -46,3 +46,9 @@ exports.getprevim = function(id) {
         [id]
     );
 };
+exports.deleteAllComments = function(id) {
+    return db.query("DELETE FROM comments WHERE photo_id = $1", [id]);
+};
+exports.deleteEntry = function(id) {
+    return db.query("DELETE FROM images WHERE id = $1", [id]);
+};
