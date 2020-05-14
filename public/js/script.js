@@ -160,7 +160,6 @@
                         vueInstance.title = "";
                         vueInstance.description = "";
                         vueInstance.username = "";
-                        console.log(vueInstance.file);
                     })
                     .catch(function(err) {
                         console.log("err in POST /upload: ", err);
